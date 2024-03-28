@@ -3,7 +3,7 @@ import {
     ApiDataType,
     PleasanterApiClient,
     View,
-} from "./lib/pleasanterclient";
+} from "./lib/pleasanterClient";
 import Pleasanter from "./components/Pleasanter";
 
 const columns = ["IssueId", "Title", "Body", "Owner", "Status"];
@@ -36,15 +36,6 @@ const getPleasanterRecords = async () => {
 };
 
 export default async function Home() {
-    // let [rowItems, setRowItems] = useState<any[]>([]);
-    // useEffect(() => {
-    //     const getPlPosts = async () => {
-    //         let resJson = await getPleasanterRecords();
-    //         setRowItems(resJson.Response.Data);
-    //     };
-    //     getPlPosts();
-    // }, [columns]);
-
     let resJson = await getPleasanterRecords();
     let rowItems: any[];
     rowItems = resJson.Response.Data;
