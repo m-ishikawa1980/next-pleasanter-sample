@@ -1,15 +1,20 @@
 import React from "react";
 
-const Pleasanter = (props: any) => {
-    //console.log("Pleasanter");
+type props = {
+    rowItem: any;
+    columns: string[];
+};
+
+const Pleasanter = ({ rowItem, columns }: props) => {
     return (
         <>
             <div className="">
-                <div className=" m-3 bg-orange-300 w-56">
-                    <p className=" text-cyan-600">
-                        Pleasanter {props.recordid}
-                    </p>
-                    <p className=" text-3xl text-cyan-600">{props.title}</p>
+                <div className=" m-3 p-2 border w-auto">
+                    {columns.map((column) => (
+                        <p key={column} className=" text-3xl text-cyan-600">
+                            {column} = {rowItem[column]}
+                        </p>
+                    ))}
                 </div>
             </div>
         </>
