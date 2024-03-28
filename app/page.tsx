@@ -35,7 +35,7 @@ const getPleasanterRecords = async () => {
     }
 };
 
-export default async function Home() {
+async function Home() {
     let resJson = await getPleasanterRecords();
     let rowItems: any[];
     rowItems = resJson.Response.Data;
@@ -55,3 +55,5 @@ export default async function Home() {
         </>
     );
 }
+
+export default Home;
