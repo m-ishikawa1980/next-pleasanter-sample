@@ -4,9 +4,10 @@ import {
     PleasanterApiClient,
     View,
 } from "./lib/pleasanterClient";
-import Pleasanter from "./components/Pleasanter";
+import PleasanterItem from "./components/PleasanterItem";
 
 const columns = ["IssueId", "Title", "Body", "Owner", "Status"];
+const siteId = 11114883;
 
 const getPleasanterRecords = async () => {
     try {
@@ -25,7 +26,7 @@ const getPleasanterRecords = async () => {
         view.ApiKey = process.env.NEXT_PUBLIC_PLEASANTER_APY_KEY;
         view.ApiVersion = 1.1;
         let res = await PleasanterApiClient.apiGet({
-            id: 11114883,
+            id: siteId,
             view: view,
             url: process.env.NEXT_PUBLIC_PLEASANTER_URL!,
         });
@@ -36,9 +37,9 @@ const getPleasanterRecords = async () => {
 };
 
 async function Home() {
-    let resJson = await getPleasanterRecords();
+    let res = await getPleasanterRecords();
     let rowItems: any[];
-    rowItems = resJson.Response.Data;
+    rowItems = res.Response.Data;
 
     return (
         <>
@@ -47,7 +48,10 @@ async function Home() {
                 <div className=" flex">
                     {rowItems.map((rowItem) => (
                         <div key={rowItem.IssueId}>
-                            <Pleasanter rowItem={rowItem} columns={columns} />
+                            <PleasanterItem
+                                rowItem={rowItem}
+                                columns={columns}
+                            />
                         </div>
                     ))}
                 </div>

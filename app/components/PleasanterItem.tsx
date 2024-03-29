@@ -5,7 +5,7 @@ type props = {
     columns: string[];
 };
 
-const Pleasanter = ({ rowItem, columns }: props) => {
+const PleasanterItem = ({ rowItem, columns }: props) => {
     return (
         <>
             <div className="">
@@ -21,4 +21,4 @@ const Pleasanter = ({ rowItem, columns }: props) => {
     );
 };
 
-export default Pleasanter;
+export default PleasanterItem;
