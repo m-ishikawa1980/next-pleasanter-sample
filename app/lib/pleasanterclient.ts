@@ -27,6 +27,12 @@ export enum ApiColumnValueDisplayType {
     Text = "Text",
 }
 
+interface AttachmentsHashProps {
+    ContentType: string | null;
+    Name: String | null;
+    Base64: String | null;
+}
+
 export interface RequestOpsions extends ApiOptions {
     SiteId?: number | null;
     UpdatedTime?: Date | null;
@@ -53,7 +59,7 @@ export interface RequestOpsions extends ApiOptions {
     NumHash?: Map<string, Number> | null;
     CheckHash?: Map<string, boolean> | null;
     DescriptionHash?: Map<string, string> | null;
-    AttachmentsHash?: Map<string, any> | null;
+    AttachmentsHash?: Map<string, AttachmentsHashProps> | null;
 }
 
 export class ItemModel extends Api implements RequestOpsions {
@@ -77,12 +83,12 @@ export class ItemModel extends Api implements RequestOpsions {
     Updator?: Number | null;
     CreatedTime?: Date | null;
     ProcessId?: Number | null;
-    ClassHash?: Map<string, string> | null;
-    DateHash?: Map<string, Date> | null;
-    NumHash?: Map<string, Number> | null;
-    CheckHash?: Map<string, boolean> | null;
-    DescriptionHash?: Map<string, string> | null;
-    AttachmentsHash?: Map<string, any> | null;
+    ClassHash: Map<string, string> | null;
+    DateHash: Map<string, Date> | null;
+    NumHash: Map<string, Number> | null;
+    CheckHash: Map<string, boolean> | null;
+    DescriptionHash: Map<string, string> | null;
+    AttachmentsHash: Map<string, any> | null;
     constructor(requestOpsions: RequestOpsions) {
         super({});
         this.SiteId = requestOpsions.SiteId || null;
@@ -111,6 +117,47 @@ export class ItemModel extends Api implements RequestOpsions {
         this.CheckHash = requestOpsions.CheckHash || null;
         this.DescriptionHash = requestOpsions.DescriptionHash || null;
         this.AttachmentsHash = requestOpsions.AttachmentsHash || null;
+    }
+
+    setClassHash({ key, value }: { key: string; value: string }) {
+        if (this.ClassHash === null) {
+            this.ClassHash = new Map();
+        }
+        this.ClassHash.set(key, value);
+    }
+
+    setDateHash({ key, value }: { key: string; value: Date }) {
+        if (this.DateHash === null) {
+            this.DateHash = new Map();
+        }
+        this.DateHash.set(key, value);
+    }
+
+    setNumHash({ key, value }: { key: string; value: Number }) {
+        if (this.NumHash === null) {
+            this.NumHash = new Map();
+        }
+        this.NumHash.set(key, value);
+    }
+
+    setDescriptionHash({ key, value }: { key: string; value: string }) {
+        if (this.DescriptionHash === null) {
+            this.DescriptionHash = new Map();
+        }
+        this.DescriptionHash.set(key, value);
+    }
+
+    setAttachmentsHash({
+        key,
+        value,
+    }: {
+        key: string;
+        value: AttachmentsHashProps;
+    }) {
+        if (this.AttachmentsHash === null) {
+            this.AttachmentsHash = new Map();
+        }
+        this.AttachmentsHash.set(key, value);
     }
 }
 
@@ -261,9 +308,33 @@ export class PleasanterApiClient {
         url: string;
     }) {
         let data = PleasanterApiClient.setGetRequest({ view: view });
-
+        console.log(JSON.stringify(data));
         let response = await fetch(
             `${url}${url.slice(-1) !== "/" ? "/" : ""}api/items/${id}/get`,
+            {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.json();
+    }
+
+    static async apiCreate({
+        id,
+        item,
+        url,
+    }: {
+        id: number;
+        item: ItemModel;
+        url: string;
+    }) {
+        let data = PleasanterApiClient.setItemModel({ item: item });
+        console.log(JSON.stringify(data));
+        let response = await fetch(
+            `${url}${url.slice(-1) !== "/" ? "/" : ""}api/items/${id}/create`,
             {
                 method: "POST",
                 body: JSON.stringify(data),
@@ -346,4 +417,149 @@ export class PleasanterApiClient {
         }
         return data;
     }
+
+    static setItemModel({ item }: { item: ItemModel }) {
+        let data: any = {};
+        data.ApiKey = item.ApiKey;
+        data.ApiVersion = item.ApiVersion;
+        //data.View = {};
+        if (item.SiteId != null) {
+            data.SiteId = item.SiteId;
+        }
+
+        if (item.UpdatedTime != null) {
+            data.UpdatedTime = item.UpdatedTime;
+        }
+
+        if (item.IssueId != null) {
+            data.IssueId = item.IssueId;
+        }
+
+        if (item.ResutId != null) {
+            data.ResutId = item.ResutId;
+        }
+
+        if (item.Ver != null) {
+            data.Ver = item.Ver;
+        }
+
+        if (item.Title != null) {
+            data.Title = item.Title;
+        }
+
+        if (item.Body != null) {
+            data.Body = item.Body;
+        }
+
+        if (item.StartTime != null) {
+            data.StartTime = item.StartTime;
+        }
+
+        if (item.CompletionTime != null) {
+            data.CompletionTime = item.CompletionTime;
+        }
+
+        if (item.WorkValue != null) {
+            data.WorkValue = item.WorkValue;
+        }
+
+        if (item.ProgressRate != null) {
+            data.ProgressRate = item.ProgressRate;
+        }
+
+        if (item.Status != null) {
+            data.Status = item.Status;
+        }
+
+        if (item.Manager != null) {
+            data.Manager = item.Manager;
+        }
+
+        if (item.Owner != null) {
+            data.Owner = item.Owner;
+        }
+
+        if (item.Locked != null) {
+            data.Locked = item.Locked;
+        }
+
+        if (item.Comments != null) {
+            data.Comments = item.Comments;
+        }
+
+        if (item.Creator != null) {
+            data.Creator = item.Creator;
+        }
+
+        if (item.Updator != null) {
+            data.Updator = item.Updator;
+        }
+
+        if (item.CreatedTime != null) {
+            data.CreatedTime = item.CreatedTime;
+        }
+
+        if (item.ProcessId != null) {
+            data.ProcessId = item.ProcessId;
+        }
+
+        if (item.ClassHash) {
+            let hash: any = {};
+            item["ClassHash"].forEach((value, key) => {
+                hash[key] = value;
+            });
+            data["ClassHash"] = hash;
+        }
+
+        if (item.DateHash) {
+            let hash: any = {};
+            item["DateHash"].forEach((value, key) => {
+                hash[key] = value;
+            });
+            data["DateHash"] = hash;
+        }
+
+        if (item.NumHash) {
+            let hash: any = {};
+            item["NumHash"].forEach((value, key) => {
+                hash[key] = value;
+            });
+            data["NumHash"] = hash;
+        }
+
+        if (item.CheckHash) {
+            let hash: any = {};
+            item["CheckHash"].forEach((value, key) => {
+                hash[key] = value;
+            });
+            data["CheckHash"] = hash;
+        }
+
+        if (item.DescriptionHash) {
+            let hash: any = {};
+            item["DescriptionHash"].forEach((value, key) => {
+                hash[key] = value;
+            });
+            data["DescriptionHash"] = hash;
+        }
+
+        if (item.AttachmentsHash) {
+            let hash: any = {};
+            item["AttachmentsHash"].forEach((value, key) => {
+                hash[key] = value;
+            });
+            data["AttachmentsHash"] = hash;
+        }
+        return data;
+    }
 }
+
+const keyCheck = (obj: ItemModel, prefix: string) => {
+    const keys = Object.keys(obj);
+    for (const key of keys) {
+        if (key.startsWith(prefix)) {
+            return true;
+        }
+    }
+    return false;
+};
