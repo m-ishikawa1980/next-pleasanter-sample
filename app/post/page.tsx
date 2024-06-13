@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const page = () => {
+    const router = useRouter();
     const [title, setTitle] = useState("");
     const [classA, setClassA] = useState("");
     const [classB, setClassB] = useState("");
@@ -14,17 +16,21 @@ const page = () => {
         console.log("ClassA=" + classA);
         console.log("ClassB=" + classB);
 
-        const response = await fetch("http://localhost:3000/api/pleasanter", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                title: title,
-                classA: classA,
-                classB: classB,
-            }),
-        });
+        const response = await fetch(
+            "http://localhost:3000/api/pleasanter/postarticle",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: title,
+                    classA: classA,
+                    classB: classB,
+                }),
+            }
+        );
+        router.push("/");
     };
     return (
         <div className="my-10">
