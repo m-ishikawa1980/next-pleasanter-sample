@@ -1,22 +1,5 @@
-import {
-    ApiColumnKeyDisplayType,
-    ApiDataType,
-    PleasanterApiClient,
-    View,
-} from "./lib/pleasanterClient";
 import PleasanterItem from "./components/PleasanterItem";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 const columns = [
@@ -28,7 +11,6 @@ const columns = [
     "ClassA",
     "ClassB",
 ];
-const siteId = 11114883;
 
 async function Home() {
     // const getPleasanterRecords = async () => {
@@ -74,28 +56,22 @@ async function Home() {
             },
         }
     );
-    //console.log(response);
     const apiResponse = await response.json();
-    console.log(apiResponse);
     let rowItems: any[];
     rowItems = apiResponse.data.Response.Data;
 
-    rowItems.map((item) => {
-        console.log("rowItems=" + item);
-    });
-
     return (
         <>
-            <div className=" py-8 px-8">
-                <div className=" mx-5 flex justify-between items-center">
-                    <h1 className=" text-6xl">Home</h1>
-                    <div className=" mr-11">
+            <div className="py-8 px-8">
+                <div className="mx-5 flex justify-between items-center">
+                    <h1 className="text-6xl">Home</h1>
+                    <div className="mr-11">
                         <Button variant="outline">
                             <Link href={"/post"}>post</Link>
                         </Button>
                     </div>
                 </div>
-                <div className=" flex">
+                <div className="flex">
                     {rowItems.map((rowItem) => (
                         <div key={rowItem.IssueId}>
                             <PleasanterItem

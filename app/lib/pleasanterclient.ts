@@ -308,7 +308,6 @@ export class PleasanterApiClient {
         url: string;
     }) {
         let data = PleasanterApiClient.setGetRequest({ view: view });
-        console.log(JSON.stringify(data));
         let response = await fetch(
             `${url}${url.slice(-1) !== "/" ? "/" : ""}api/items/${id}/get`,
             {
@@ -332,7 +331,6 @@ export class PleasanterApiClient {
         url: string;
     }) {
         let data = PleasanterApiClient.setItemModel({ item: item });
-        console.log(JSON.stringify(data));
         let response = await fetch(
             `${url}${url.slice(-1) !== "/" ? "/" : ""}api/items/${id}/create`,
             {
@@ -422,7 +420,7 @@ export class PleasanterApiClient {
         let data: any = {};
         data.ApiKey = item.ApiKey;
         data.ApiVersion = item.ApiVersion;
-        //data.View = {};
+
         if (item.SiteId != null) {
             data.SiteId = item.SiteId;
         }

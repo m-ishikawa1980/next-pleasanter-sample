@@ -8,13 +8,12 @@ import { useRouter } from "next/navigation";
 const page = () => {
     const router = useRouter();
     const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
     const [classA, setClassA] = useState("");
     const [classB, setClassB] = useState("");
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        console.log("ClassA=" + classA);
-        console.log("ClassB=" + classB);
 
         const response = await fetch(
             "http://localhost:3000/api/pleasanter/postarticle",
@@ -25,6 +24,7 @@ const page = () => {
                 },
                 body: JSON.stringify({
                     title: title,
+                    body: body,
                     classA: classA,
                     classB: classB,
                 }),
@@ -45,6 +45,16 @@ const page = () => {
                                 name="title"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <p>Body</p>
+                            <input
+                                className="border h-10"
+                                type="text"
+                                name="Body"
+                                value={body}
+                                onChange={(e) => setBody(e.target.value)}
                             />
                         </div>
                         <div className="flex items-center gap-3">
